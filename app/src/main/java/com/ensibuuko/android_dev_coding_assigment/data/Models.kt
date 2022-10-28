@@ -21,8 +21,9 @@ class User {
 @Parcelize
 data class Posts(
     @PrimaryKey val id: Int = 0,
-    var title: String? = null,
-    var body: String? = null
+//    val userId: Int,
+    val title: String,
+    val body: String
 ) : Parcelable
 
 data class Comments(
