@@ -1,41 +1,28 @@
 package com.ensibuuko.android_dev_coding_assigment.ui.posts
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.ensibuuko.android_dev_coding_assigment.R
 import com.ensibuuko.android_dev_coding_assigment.data.Posts
 import com.ensibuuko.android_dev_coding_assigment.databinding.FragmentPostsBinding
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class PostsFragment : Fragment(R.layout.fragment_posts) {
+class PostsFragment : Fragment(R.layout.fragment_posts), PostsAdapter.OnItemClickListener {
 
     private val postsViewModel: PostsViewModel by viewModels()
-
-    private val postsLists = arrayListOf<Posts>()
-    private lateinit var postsAdapter: PostsAdapter
-    private lateinit var recyclerView: RecyclerView
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        val view = inflater.inflate(R.layout.fragment_posts, container, false)
-        recyclerView = view.findViewById(R.id.rv_posts)
-        return view
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         val binding = FragmentPostsBinding.bind(view)
-        val postsAdapter = PostsAdapter()
+        val postsAdapter = PostsAdapter(this)
 
         binding.apply {
             rvPosts.apply {
@@ -43,11 +30,62 @@ class PostsFragment : Fragment(R.layout.fragment_posts) {
                 layoutManager = LinearLayoutManager(requireContext())
                 setHasFixedSize(true)
             }
+
+            fab.setOnClickListener {
+                postsViewModel.onAddPostClick()
+            }
         }
 
-        postsViewModel.posts.observe(viewLifecycleOwner){
+        setFragmentResultListener("add_edit_request") { _, bundle ->
+            val result = bundle.getInt("add_edit_result")
+            postsViewModel.onAddEditResult(result)
+        }
+
+        postsViewModel.posts.observe(viewLifecycleOwner) {
             postsAdapter.submitList(it)
         }
-    } 
+
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            postsViewModel.postEvent.collect {
+                when (it) {
+                    is PostsViewModel.PostEvent.NavigateToAddPostScreen -> {
+                        val action = PostsFragmentDirections.actionPostsFragmentToAddEditFragment(
+                            "Add Post",
+                            null
+                        )
+                        findNavController().navigate(action)
+                    }
+                    is PostsViewModel.PostEvent.NavigateToEditPostScreen -> {
+                        val action = PostsFragmentDirections.actionPostsFragmentToAddEditFragment(
+                            "Edit Post",
+                            it.posts
+                        )
+                        findNavController().navigate(action)
+                    }
+                    is PostsViewModel.PostEvent.NavigateToPostDetailsScreen -> {
+                        val action =
+                            PostsFragmentDirections.actionPostsFragmentToPostDetailsFragment(it.posts)
+                        findNavController().navigate(action)
+                    }
+
+                    is PostsViewModel.PostEvent.ShowPostCreatedConfirmationMessage -> {
+                        Snackbar.make(requireView(), it.msg, Snackbar.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+    override fun onItemClick(posts: Posts) {
+        postsViewModel.onPostClicked(posts)
+    }
+
+    override fun onEditItemClick(posts: Posts) {
+        postsViewModel.onEditPostClicked(posts)
+    }
+
+    override fun onDeleteItemClick(posts: Posts) {
+        postsViewModel.onPostDeleted(posts)
+    }
 
 }

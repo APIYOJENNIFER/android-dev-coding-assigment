@@ -1,5 +1,6 @@
 package com.ensibuuko.android_dev_coding_assigment.ui
 
+import android.app.Activity
 import android.os.Bundle
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
@@ -8,9 +9,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import android.view.Menu
 import android.view.MenuItem
+import android.window.OnBackInvokedDispatcher
+import androidx.activity.OnBackPressedCallback
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.setupWithNavController
 import com.ensibuuko.android_dev_coding_assigment.R
 import com.ensibuuko.android_dev_coding_assigment.databinding.ActivityMainBinding
@@ -34,48 +38,28 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-//        setSupportActionBar(binding.toolbar)
-
-//        val navController = findNavController(R.id.nav_host_fragment_content_main)
-//        appBarConfiguration = AppBarConfiguration(navController.graph)
-//        setupActionBarWithNavController(navController, appBarConfiguration)
-
         toolbar = findViewById(R.id.toolbar)
         drawerLayout = findViewById(R.id.drawer_layout)
         navigationView = findViewById(R.id.nav_view)
         val header = navigationView.getHeaderView(0)
 
-        //Get Nav Host Fragment and Nav Controller
         val navHostFrag =
             supportFragmentManager.findFragmentById(R.id.nav_host_frag) as NavHostFragment
-        navController = navHostFrag.navController
+        navController = navHostFrag.findNavController()
 
-        //Define AppBarConfiguration: Connect DrawerLayout with Navigation Component
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawerLayout)
 
-        //Connect Toolbar with NavController
-        toolbar.setupWithNavController(navController)
+        toolbar.setupWithNavController(navController, appBarConfiguration)
 
-        //Connect NavView with NavController
         navigationView.setupWithNavController(navController)
-//        navigationView.setNavigationItemSelectedListener(o)
-
-//        binding.fab.setOnClickListener { view ->
-//            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                .setAction("Action", null).show()
-//        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
         menuInflater.inflate(R.menu.menu_main, menu)
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
             R.id.action_settings -> true
             else -> super.onOptionsItemSelected(item)
@@ -83,7 +67,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
+        val navController = findNavController(R.id.nav_host_frag)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }
@@ -96,3 +80,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
+
+const val ADD_POST_RESULT_OK = Activity.RESULT_FIRST_USER
+const val EDIT_POST_RESULT_OK = Activity.RESULT_FIRST_USER + 1

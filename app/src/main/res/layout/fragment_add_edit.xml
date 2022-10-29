@@ -7,7 +7,7 @@
     tools:context=".ui.addeditpost.AddEditFragment">
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tv_add_edit_title"
+        android:id="@+id/et_add_edit_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Title Here"
@@ -15,12 +15,12 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/tv_add_edit_body"
+        android:id="@+id/et_add_edit_body"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Enter Post Body Here"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_edit_title" />
+        app:layout_constraintTop_toBottomOf="@id/et_add_edit_title" />
 
     <Button
         android:id="@+id/btn_cancel"
@@ -29,7 +29,7 @@
         android:text="Cancel"
         app:layout_constraintEnd_toStartOf="@id/btn_post"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_edit_body" />
+        app:layout_constraintTop_toBottomOf="@id/et_add_edit_body" />
 
     <Button
         android:id="@+id/btn_post"
@@ -38,6 +38,6 @@
         android:text="Post"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btn_cancel"
-        app:layout_constraintTop_toBottomOf="@id/tv_add_edit_body" />
+        app:layout_constraintTop_toBottomOf="@id/et_add_edit_body" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
