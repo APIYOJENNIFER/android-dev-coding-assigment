@@ -5,5 +5,13 @@
     <string name="previous">Previous</string>
 
     <string name="nav_header_background">Nav Header Background</string>
+    <string name="add_comment">Add comment</string>
+    <string name="fab">FAB</string>
+    <string name="view_profile">View Profile</string>
+    <string name="post">Post</string>
+    <string name="cancel">Cancel</string>
+    <string name="enter_post_body_here">Enter Post Body Here</string>
+    <string name="enter_title_here">Enter Title Here</string>
+    <string name="comment">Comment</string>
 
 </resources>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
@@ -8,7 +9,7 @@
     <ImageView
         android:id="@+id/imv_header_background"
         android:layout_width="0dp"
-        android:layout_height="200dp"
+        android:layout_height="300dp"
         android:contentDescription="@string/nav_header_background"
         android:scaleType="centerCrop"
         android:src="@drawable/placeholder"
@@ -20,24 +21,52 @@
         android:id="@+id/tv_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="Name"
-        app:layout_constraintBottom_toTopOf="@id/tv_user_email" />
+        android:padding="15dp"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@id/tv_username"
+        tools:text="Name" />
 
     <TextView
-        android:id="@+id/tv_user_email"
+        android:id="@+id/tv_username"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="Email"
-        app:layout_constraintBottom_toTopOf="@id/tv_user_phone" />
+        android:drawablePadding="10dp"
+        android:padding="15dp"
+        android:textColor="@color/black"
+        app:drawableStartCompat="@drawable/ic_username"
+        app:layout_constraintBottom_toTopOf="@id/tv_email"
+        tools:text="User Name" />
+
+    <TextView
+        android:id="@+id/tv_email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:padding="15dp"
+        app:drawableStartCompat="@drawable/ic_email"
+        app:layout_constraintBottom_toTopOf="@id/tv_user_phone"
+        tools:text="Email" />
 
     <TextView
         android:id="@+id/tv_user_phone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="4dp"
-        android:text="Phone"
-        app:layout_constraintBottom_toBottomOf="@id/imv_header_background" />
+        android:drawablePadding="10dp"
+        android:padding="15dp"
+        app:drawableStartCompat="@drawable/ic_phone"
+        app:layout_constraintBottom_toTopOf="@id/tv_website"
+        tools:text="Phone" />
+
+    <TextView
+        android:id="@+id/tv_website"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:drawablePadding="10dp"
+        android:padding="15dp"
+        app:drawableStartCompat="@drawable/ic_website"
+        app:layout_constraintBottom_toBottomOf="@id/imv_header_background"
+        tools:text="Website" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

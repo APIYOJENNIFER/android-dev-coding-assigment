@@ -20,6 +20,9 @@
         <action
             android:id="@+id/action_PostsFragment_to_postDetailsFragment"
             app:destination="@id/postDetailsFragment" />
+        <action
+            android:id="@+id/action_PostsFragment_to_profileFragment"
+            app:destination="@id/profileFragment" />
     </fragment>
     <fragment
         android:id="@+id/PostDetailsFragment"
@@ -53,8 +56,19 @@
 
         <argument
             android:name="post"
+            android:defaultValue="@null"
             app:argType="com.ensibuuko.android_dev_coding_assigment.data.Posts"
-            app:nullable="true"
-            android:defaultValue="@null" />
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.ensibuuko.android_dev_coding_assigment.ui.profile.ProfileFragment"
+        android:label="Profile"
+        tools:layout="@layout/fragment_profile">
+        <argument
+            android:name="user"
+            android:defaultValue="@null"
+            app:argType="com.ensibuuko.android_dev_coding_assigment.data.Posts"
+            app:nullable="true" />
     </fragment>
 </navigation>
