@@ -1,10 +1,10 @@
 package com.ensibuuko.android_dev_coding_assigment.ui.posts
 
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.ensibuuko.android_dev_coding_assigment.data.Posts
 import com.ensibuuko.android_dev_coding_assigment.data.PostsDao
+import com.ensibuuko.android_dev_coding_assigment.data.PostsRepository
+import com.ensibuuko.android_dev_coding_assigment.network.PostApi
 import com.ensibuuko.android_dev_coding_assigment.ui.ADD_POST_RESULT_OK
 import com.ensibuuko.android_dev_coding_assigment.ui.EDIT_POST_RESULT_OK
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,9 +15,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostsViewModel @Inject constructor(
-    private val postsDao: PostsDao
+    private val postsDao: PostsDao,
+    repository: PostsRepository
 ) : ViewModel() {
-    val posts = postsDao.getPosts().asLiveData()
+    val posts = repository.getPosts().asLiveData()
 
     private val postEventChannel = Channel<PostEvent>()
     val postEvent = postEventChannel.receiveAsFlow()
@@ -38,6 +39,10 @@ class PostsViewModel @Inject constructor(
         postEventChannel.send(PostEvent.NavigateToAddPostScreen)
     }
 
+    fun onViewProfileClicked(posts: Posts) = viewModelScope.launch {
+        postEventChannel.send(PostEvent.NavigateToProfileScreen(posts))
+    }
+
     fun onAddEditResult(result: Int) {
         when (result) {
             ADD_POST_RESULT_OK -> showPostCreatedConfirmationMessage("Post Added")
@@ -53,6 +58,7 @@ class PostsViewModel @Inject constructor(
         object NavigateToAddPostScreen : PostEvent()
         data class NavigateToEditPostScreen(val posts: Posts) : PostEvent()
         data class NavigateToPostDetailsScreen(val posts: Posts) : PostEvent()
+        data class NavigateToProfileScreen(val posts: Posts) : PostEvent()
         data class ShowPostCreatedConfirmationMessage(val msg: String) : PostEvent()
     }
 }
