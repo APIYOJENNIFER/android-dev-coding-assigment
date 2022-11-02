@@ -9,29 +9,18 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
+class UserProfileViewModel @Inject constructor(
     api: UserApi,
     private val state: SavedStateHandle
 ) : ViewModel() {
-    private val post = state.get<Posts>("user")
-
-    private var userId = state.get<Int>("userId") ?: post?.userId ?: 0
-        set(value) {
-            field = value
-            state["userId"] = value
-        }
 
     private val userLiveData = MutableLiveData<User>()
     val currentUser: LiveData<User> = userLiveData
-    val users: LiveData<User> = userLiveData
 
     init {
         viewModelScope.launch {
             val currentUser = api.getUser(1) //get ID dynamically
             userLiveData.value = currentUser
-
-            val users  = api.getUser(userId)
-            userLiveData.value = users
         }
     }
 

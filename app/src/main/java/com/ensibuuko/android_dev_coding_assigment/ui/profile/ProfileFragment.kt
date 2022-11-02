@@ -5,19 +5,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import com.ensibuuko.android_dev_coding_assigment.R
+import com.ensibuuko.android_dev_coding_assigment.databinding.FragmentProfileBinding
+import dagger.hilt.android.AndroidEntryPoint
 
-class ProfileFragment : Fragment() {
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_profile, container, false)
-    }
+@AndroidEntryPoint
+class ProfileFragment : Fragment(R.layout.fragment_profile) {
+    private val viewModel: ProfileViewModel by viewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        val binding = FragmentProfileBinding.bind(view)
+
+        viewModel.users.observe(viewLifecycleOwner) {
+            binding.apply {
+                tvName.text = it.name
+                tvUsername.text = it.username
+                tvEmail.text = it.email
+                tvPhone.text = it.phone
+                tvWebsite.text = it.website
+            }
+        }
     }
 }
