@@ -50,7 +50,7 @@ class AddEditPostViewModel @Inject constructor(
             val updatedPost = post.copy(title = postTitle, body = postBody)
             updatePost(updatedPost)
         } else {
-            val newPost = Posts(title = postTitle, body = postBody)
+            val newPost = Posts(title = postTitle, body = postBody, userId = 1)
             createPost(newPost)
         }
     }

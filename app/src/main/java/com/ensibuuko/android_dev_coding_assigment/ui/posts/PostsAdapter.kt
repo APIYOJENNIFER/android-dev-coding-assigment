@@ -2,6 +2,7 @@ package com.ensibuuko.android_dev_coding_assigment.ui.posts
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
@@ -47,6 +48,14 @@ class PostsAdapter(private val listener: OnItemClickListener) :
                         listener.onDeleteItemClick(posts)
                     }
                 }
+
+                btnViewProfile.setOnClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION){
+                        val posts = getItem(position)
+                        listener.onViewProfileClick(posts)
+                    }
+                }
             }
         }
 
@@ -54,6 +63,10 @@ class PostsAdapter(private val listener: OnItemClickListener) :
             binding.apply {
                 tvPostTitle.text = posts.title
                 tvPostBody.text = posts.body
+                if (posts.userId == 1) {
+                    ivEdit.isVisible = true
+                    ivDelete.isVisible = true
+                }
             }
         }
     }
@@ -62,6 +75,7 @@ class PostsAdapter(private val listener: OnItemClickListener) :
         fun onItemClick(posts: Posts)
         fun onEditItemClick(posts: Posts)
         fun onDeleteItemClick(posts: Posts)
+        fun onViewProfileClick(posts: Posts)
     }
 
     class CallBack : DiffUtil.ItemCallback<Posts>() {

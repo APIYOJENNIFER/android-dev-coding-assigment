@@ -7,28 +7,29 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-class User {
-    @SerializedName("id")
-    @Expose
-    var id = 0
-
-    @SerializedName("username")
-    @Expose
-    var username: String? = null
-}
+data class User(
+    @PrimaryKey val id: Int = 0,
+    val name: String,
+    val username: String,
+    val email: String,
+    val phone: String,
+    val website: String
+)
 
 @Entity(tableName = "posts_table")
 @Parcelize
 data class Posts(
     @PrimaryKey val id: Int = 0,
-//    val userId: Int,
+    val userId: Int = 0,
     val title: String,
     val body: String
 ) : Parcelable
 
+@Entity(tableName = "comments_table")
 data class Comments(
-    var id: Int = 0,
-    var name: String? = null,
-    var email: String? = null,
-    var body: String? = null
+    @PrimaryKey val id: Int = 0,
+    val postId: Int = 0,
+    val name: String,
+    val email: String,
+    val body: String
 )

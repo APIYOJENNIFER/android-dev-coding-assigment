@@ -2,6 +2,7 @@ package com.ensibuuko.android_dev_coding_assigment.ui.posts
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -11,6 +12,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.ensibuuko.android_dev_coding_assigment.R
 import com.ensibuuko.android_dev_coding_assigment.data.Posts
 import com.ensibuuko.android_dev_coding_assigment.databinding.FragmentPostsBinding
+import com.ensibuuko.android_dev_coding_assigment.util.Resource
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -42,7 +44,11 @@ class PostsFragment : Fragment(R.layout.fragment_posts), PostsAdapter.OnItemClic
         }
 
         postsViewModel.posts.observe(viewLifecycleOwner) {
-            postsAdapter.submitList(it)
+            postsAdapter.submitList(it.data)
+
+            binding.progressCircular.isVisible = it is Resource.Loading && it.data.isNullOrEmpty()
+            binding.tvError.isVisible = it is Resource.Error && it.data.isNullOrEmpty()
+            binding.tvError.text = it.error?.localizedMessage
         }
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -71,6 +77,12 @@ class PostsFragment : Fragment(R.layout.fragment_posts), PostsAdapter.OnItemClic
                     is PostsViewModel.PostEvent.ShowPostCreatedConfirmationMessage -> {
                         Snackbar.make(requireView(), it.msg, Snackbar.LENGTH_SHORT).show()
                     }
+
+                    is PostsViewModel.PostEvent.NavigateToProfileScreen -> {
+                        val action =
+                            PostsFragmentDirections.actionPostsFragmentToProfileFragment(it.posts)
+                        findNavController().navigate(action)
+                    }
                 }
             }
         }
@@ -86,6 +98,10 @@ class PostsFragment : Fragment(R.layout.fragment_posts), PostsAdapter.OnItemClic
 
     override fun onDeleteItemClick(posts: Posts) {
         postsViewModel.onPostDeleted(posts)
+    }
+
+    override fun onViewProfileClick(posts: Posts) {
+        postsViewModel.onViewProfileClicked(posts)
     }
 
 }
