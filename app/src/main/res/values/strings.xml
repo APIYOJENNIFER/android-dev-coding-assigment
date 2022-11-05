@@ -13,5 +13,6 @@
     <string name="enter_post_body_here">Enter Post Body Here</string>
     <string name="enter_title_here">Enter Title Here</string>
     <string name="comment">Comment</string>
+    <string name="deposit">Deposit</string>
 
 </resources>

@@ -1,7 +1,9 @@
 package com.ensibuuko.android_dev_coding_assigment.ui.profile
 
-import androidx.lifecycle.*
-import com.ensibuuko.android_dev_coding_assigment.data.Posts
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.ensibuuko.android_dev_coding_assigment.data.User
 import com.ensibuuko.android_dev_coding_assigment.network.UserApi
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -11,7 +13,6 @@ import javax.inject.Inject
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
     api: UserApi,
-    private val state: SavedStateHandle
 ) : ViewModel() {
 
     private val userLiveData = MutableLiveData<User>()

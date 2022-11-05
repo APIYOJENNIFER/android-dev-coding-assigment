@@ -5,8 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ensibuuko.android_dev_coding_assigment.data.Posts
 import com.ensibuuko.android_dev_coding_assigment.data.PostsDao
-import com.ensibuuko.android_dev_coding_assigment.ui.ADD_POST_RESULT_OK
-import com.ensibuuko.android_dev_coding_assigment.ui.EDIT_POST_RESULT_OK
+import com.ensibuuko.android_dev_coding_assigment.util.Constants.ADD_POST_RESULT_OK
+import com.ensibuuko.android_dev_coding_assigment.util.Constants.EDIT_POST_RESULT_OK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -50,7 +50,7 @@ class AddEditPostViewModel @Inject constructor(
             val updatedPost = post.copy(title = postTitle, body = postBody)
             updatePost(updatedPost)
         } else {
-            val newPost = Posts(title = postTitle, body = postBody, userId = 1)
+            val newPost = Posts(title = postTitle, body = postBody, userId = 1 )
             createPost(newPost)
         }
     }

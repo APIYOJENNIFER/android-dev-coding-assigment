@@ -3,8 +3,6 @@ package com.ensibuuko.android_dev_coding_assigment.data
 import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.google.gson.annotations.Expose
-import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 data class User(
@@ -19,7 +17,7 @@ data class User(
 @Entity(tableName = "posts_table")
 @Parcelize
 data class Posts(
-    @PrimaryKey val id: Int = 0,
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val userId: Int = 0,
     val title: String,
     val body: String
@@ -33,3 +31,11 @@ data class Comments(
     val email: String,
     val body: String
 )
+
+@Entity(tableName = "wallet_table")
+@Parcelize
+data class Wallet(
+    @PrimaryKey(autoGenerate = true) val id: Int = 0,
+    val userId: Int = 0,
+    val amount: String
+) : Parcelable

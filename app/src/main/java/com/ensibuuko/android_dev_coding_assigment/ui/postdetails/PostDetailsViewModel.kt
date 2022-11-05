@@ -4,7 +4,6 @@ import androidx.lifecycle.*
 import com.ensibuuko.android_dev_coding_assigment.data.Comments
 import com.ensibuuko.android_dev_coding_assigment.data.CommentsDao
 import com.ensibuuko.android_dev_coding_assigment.data.Posts
-import com.ensibuuko.android_dev_coding_assigment.data.PostsDao
 import com.ensibuuko.android_dev_coding_assigment.network.CommentsApi
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -14,7 +13,6 @@ import javax.inject.Inject
 
 @HiltViewModel
 class PostDetailsViewModel @Inject constructor(
-    private val postsDao: PostsDao,
     api: CommentsApi,
     private val commentsDao: CommentsDao,
     private val state: SavedStateHandle
@@ -48,21 +46,6 @@ class PostDetailsViewModel @Inject constructor(
         }
     }
 
-//    var commentBody = state.get<String>("commentBody") ?: comments ?: ""
-//        set(value) {
-//            field = value
-//            state["postBody"] = value
-//        }
-
-    fun onAddEditCommentClick() {
-//save or update comment
-
-    }
-
-    private fun addComment(comments: Comments) = viewModelScope.launch {
-        commentsDao.insert(comments)
-    }
-
     private val commentsEventChannel = Channel<CommentsEvent>()
     val commentsEvent = commentsEventChannel.receiveAsFlow()
 
@@ -73,9 +56,15 @@ class PostDetailsViewModel @Inject constructor(
 
     fun onDeleteCommentClicked(comments: Comments) = viewModelScope.launch {
         commentsDao.delete(comments)
+        showInvalidInputMessage("Comment Deleted")
+    }
+
+    private fun showInvalidInputMessage(msg: String) = viewModelScope.launch {
+        commentsEventChannel.send(CommentsEvent.ShowCommentDeletedConfirmationMessage(msg))
     }
 
     sealed class CommentsEvent {
         data class EditComment(val comments: Comments) : CommentsEvent()
+        data class ShowCommentDeletedConfirmationMessage(val msg: String) : CommentsEvent()
     }
 }

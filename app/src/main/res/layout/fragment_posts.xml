@@ -3,18 +3,52 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/gray_10"
     android:layout_height="match_parent"
+    android:background="@color/gray_10"
     tools:context=".ui.posts.PostsFragment">
+
+    <TextView
+        android:id="@+id/tv_ugx"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="UGX"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btn_deposit"
+        app:layout_constraintEnd_toStartOf="@+id/tv_wallet_balance"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/btn_deposit" />
+
+    <TextView
+        android:id="@+id/tv_wallet_balance"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/btn_deposit"
+        app:layout_constraintEnd_toStartOf="@+id/btn_deposit"
+        app:layout_constraintStart_toEndOf="@id/tv_ugx"
+        app:layout_constraintTop_toTopOf="@id/btn_deposit" />
+
+    <Button
+        android:id="@+id/btn_deposit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Deposit"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/tv_wallet_balance"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rv_posts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_wallet_balance"
         tools:listitem="@layout/item_posts" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -24,11 +58,11 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
         android:contentDescription="@string/fab"
-        app:backgroundTint="@color/purple_500"
-        app:tint="@color/white"
         android:src="@drawable/ic_add"
+        app:backgroundTint="@color/purple_500"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/white" />
 
     <ProgressBar
         android:id="@+id/progress_circular"

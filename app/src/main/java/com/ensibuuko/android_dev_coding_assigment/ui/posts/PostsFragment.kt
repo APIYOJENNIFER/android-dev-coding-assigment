@@ -36,11 +36,26 @@ class PostsFragment : Fragment(R.layout.fragment_posts), PostsAdapter.OnItemClic
             fab.setOnClickListener {
                 postsViewModel.onAddPostClick()
             }
+
+            btnDeposit.setOnClickListener {
+                postsViewModel.onDepositButtonClick()
+            }
         }
 
         setFragmentResultListener("add_edit_request") { _, bundle ->
             val result = bundle.getInt("add_edit_result")
             postsViewModel.onAddEditResult(result)
+        }
+
+        findNavController().currentBackStackEntry?.savedStateHandle?.getLiveData<String>("wallet")
+            ?.observe(viewLifecycleOwner) {
+                postsViewModel.setWalletBal(it)
+            }
+
+        postsViewModel.wallet.observe(viewLifecycleOwner) {
+            if (it != null) {
+                binding.tvWalletBalance.text = it.amount
+            }
         }
 
         postsViewModel.posts.observe(viewLifecycleOwner) {
@@ -81,6 +96,11 @@ class PostsFragment : Fragment(R.layout.fragment_posts), PostsAdapter.OnItemClic
                     is PostsViewModel.PostEvent.NavigateToProfileScreen -> {
                         val action =
                             PostsFragmentDirections.actionPostsFragmentToProfileFragment(it.posts)
+                        findNavController().navigate(action)
+                    }
+                    is PostsViewModel.PostEvent.NavigateToAddDepositBottomSheet -> {
+                        val action =
+                            PostsFragmentDirections.actionPostFragmentToWalletDialogFragment()
                         findNavController().navigate(action)
                     }
                 }

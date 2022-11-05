@@ -20,7 +20,6 @@ class PostsRepository @Inject constructor(
         },
         saveFetchResult = {
             database.withTransaction {
-//                postsDao.deletePosts()
                 postsDao.insertPosts(it)
             }
         }

@@ -1,6 +1,5 @@
 package com.ensibuuko.android_dev_coding_assigment.ui
 
-import android.app.Activity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -84,6 +83,3 @@ class MainActivity : AppCompatActivity() {
         }
     }
 }
-
-const val ADD_POST_RESULT_OK = Activity.RESULT_FIRST_USER
-const val EDIT_POST_RESULT_OK = Activity.RESULT_FIRST_USER + 1

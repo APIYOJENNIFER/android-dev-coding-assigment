@@ -23,6 +23,9 @@
         <action
             android:id="@+id/action_PostsFragment_to_profileFragment"
             app:destination="@id/profileFragment" />
+        <action
+            android:id="@+id/action_PostFragment_to_walletDialogFragment"
+            app:destination="@id/walletDialogFragment" />
     </fragment>
     <fragment
         android:id="@+id/PostDetailsFragment"
@@ -71,4 +74,10 @@
             app:argType="com.ensibuuko.android_dev_coding_assigment.data.Posts"
             app:nullable="true" />
     </fragment>
+    <dialog
+        android:id="@+id/walletDialogFragment"
+        android:name="com.ensibuuko.android_dev_coding_assigment.ui.posts.WalletDialogFragment"
+        android:label="fragment_wallet_dialog_dialog"
+        tools:layout="@layout/fragment_wallet_dialog_dialog">
+    </dialog>
 </navigation>
