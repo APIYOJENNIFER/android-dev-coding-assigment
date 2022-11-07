@@ -25,7 +25,10 @@ class PostDetailsFragment : Fragment(R.layout.fragment_post_details), CommentsAd
             tvPostTitle.text = viewModel.postTitle
             tvPostBody.text = viewModel.postBody
 
-            //comments
+            /**
+             * comments
+             */
+
             rvComments.apply {
                 adapter = commentsAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -33,11 +36,6 @@ class PostDetailsFragment : Fragment(R.layout.fragment_post_details), CommentsAd
             }
 
             etAddComment.text
-
-            btnComment.setOnClickListener {
-
-                viewModel.onAddEditCommentClick()
-            }
         }
 
         viewModel.comments.observe(viewLifecycleOwner){
